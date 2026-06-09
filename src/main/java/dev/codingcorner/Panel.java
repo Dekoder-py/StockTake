@@ -30,7 +30,7 @@ public class Panel extends JPanel {
 
     addItemField.addActionListener(e -> {
       onAddItem();
-      addItemField.setText("");
+      addItemField.setText(""); // clear entry field after item added
 	});
 
     this.add(addItemField, gbc);

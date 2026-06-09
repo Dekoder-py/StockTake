@@ -9,6 +9,7 @@ public class App {
     frame = new JFrame("StockTake");
 
     Panel panel = new Panel();
+    InventoryItem item = new InventoryItem("item", 2);
 
     frame.add(panel);
     frame.pack();

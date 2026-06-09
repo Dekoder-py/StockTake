@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
 
 import javax.swing.*;
 
@@ -14,31 +13,48 @@ public class Panel extends JPanel {
   public static final int WIDTH = 600;
   public static final int HEIGHT = 600;
 
+  private JTextField addItemField;
+  private JSpinner itemAmountSpinner;
+
   public Panel() {
     this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
     this.setBackground(Color.WHITE);
     this.setLayout(new GridBagLayout());
-    GridBagConstraints gbc = new GridBagConstraints();
+    GridBagConstraints gbc = new GridBagConstraints(); // used for grid positioning
     gbc.insets = new Insets(5, 5, 5, 5);
 
     JLabel title = new JLabel("StockTake");
     gbc.gridy = 0;
     this.add(title, gbc);
 
-    JTextField addItemField = new JTextField(6);
-    gbc.gridy = 1;
+    addItemField = new JTextField(6);
 
     addItemField.addActionListener(e -> {
       onAddItem();
-      addItemField.setText(""); // clear entry field after item added
-	});
+    });
 
+    gbc.gridy = 1;
     this.add(addItemField, gbc);
+
+    itemAmountSpinner = new JSpinner();
+    itemAmountSpinner.setValue(1);
+
+    gbc.gridy = 1;
+    gbc.gridx = 1;
+    this.add(itemAmountSpinner, gbc);
 
   }
 
   private void onAddItem() {
-    System.out.println("item added ig");
+
+    String name = addItemField.getText();
+    int quantity = (int) itemAmountSpinner.getValue();
+
+    new InventoryItem(name, quantity);
+
+    // clear entry fields after item added
+    addItemField.setText("");
+    itemAmountSpinner.setValue(1);
   }
 
 }

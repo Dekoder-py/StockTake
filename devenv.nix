@@ -36,6 +36,12 @@
   #   "devenv:enterShell".after = [ "myproj:setup" ];
   # };
 
+  tasks = {
+    "stocktake:dev".exec = "mvn compile && mvn exec:java -Dexec.mainClass=\"dev.codingcorner.App\"";
+    "stocktake:build".exec = "mvn compile";
+    "stocktake:run".exec = "mvn exec:java -Dexec.mainClass=\"dev.codingcorner.App\"";
+  };
+
   # https://devenv.sh/tests/
   enterTest = ''
     echo "Running tests"

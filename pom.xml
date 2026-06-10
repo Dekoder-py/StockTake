@@ -14,5 +14,11 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+
+  <dependency>
+    <groupId>com.catppuccin</groupId>
+    <artifactId>catppuccin-palette</artifactId>
+    <version>2.0.3</version>
+  </dependency>
   </dependencies>
 </project>

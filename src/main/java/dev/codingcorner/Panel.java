@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.HashMap;
 
 import javax.swing.*;
 
@@ -15,6 +16,8 @@ public class Panel extends JPanel {
 
   public static final int WIDTH = 600;
   public static final int HEIGHT = 600;
+
+  private HashMap<String, InventoryItem> items = new HashMap<>();
 
   private JTextField addItemField;
   private JSpinner itemAmountSpinner;
@@ -50,10 +53,6 @@ public class Panel extends JPanel {
 
     addItemField = new JTextField(6);
 
-    addItemField.addActionListener(e -> {
-      onAddItem();
-    });
-
     gbc.gridy = 1;
     this.add(addItemField, gbc);
 
@@ -74,6 +73,28 @@ public class Panel extends JPanel {
     checkOutBtn.setBackground(BLUE);
     checkInBtn.setOpaque(true);
     checkOutBtn.setOpaque(true);
+    checkInBtn.setBorderPainted(false);
+    checkOutBtn.setBorderPainted(false);
+    checkInBtn.setFocusPainted(false);
+    checkOutBtn.setFocusPainted(false);
+
+    checkInBtn.addActionListener(e -> {
+      addItem();
+
+      System.out.println("\n\nNew inventory: ");
+      for (InventoryItem item : items.values()) {
+        System.out.println("Item: " + item.getName() + ", Quantity: " + item.quantity);
+      }
+    });
+
+    checkOutBtn.addActionListener(e -> {
+      removeItem();
+
+      System.out.println("\n\nNew inventory: ");
+      for (InventoryItem item : items.values()) {
+        System.out.println("Item: " + item.getName() + ", Quantity: " + item.quantity);
+      }
+    });
 
     buttonPanel.add(checkInBtn, Component.CENTER_ALIGNMENT);
     buttonPanel.add(checkOutBtn, Component.CENTER_ALIGNMENT);
@@ -83,12 +104,39 @@ public class Panel extends JPanel {
 
   }
 
-  private void onAddItem() {
+  private void addItem() {
 
-    String name = addItemField.getText();
+    String name = addItemField.getText().toLowerCase().trim();
     int quantity = (int) itemAmountSpinner.getValue();
 
-    new InventoryItem(name, quantity);
+    if (name.isBlank() || quantity == 0) {
+      return;
+    }
+
+    items.compute(name,
+        (k, v) -> v == null ? new InventoryItem(name, quantity) : new InventoryItem(name, v.quantity += quantity));
+
+    // clear entry fields after item added
+    addItemField.setText("");
+    itemAmountSpinner.setValue(1);
+  }
+
+  private void removeItem() {
+
+    String name = addItemField.getText().toLowerCase().trim();
+    int quantity = (int) itemAmountSpinner.getValue();
+
+    if (name.isBlank() || quantity == 0 || !items.containsKey(name)) {
+      return;
+    }
+
+    items.compute(name,
+        (k, v) -> v == null ? new InventoryItem(name, quantity) : new InventoryItem(name, v.quantity -= quantity));
+
+    if (items.get(name).quantity < 0) {
+      items.get(name).quantity = 0;
+      // TODO: make this show a warning or smth
+    }
 
     // clear entry fields after item added
     addItemField.setText("");

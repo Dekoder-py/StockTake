@@ -126,17 +126,33 @@ public class Panel extends JPanel {
     String name = addItemField.getText().toLowerCase().trim();
     int quantity = (int) itemAmountSpinner.getValue();
 
-    if (name.isBlank() || quantity == 0 || !items.containsKey(name)) {
+    if (name.isBlank() || quantity == 0) {
+      return;
+    }
+
+    if (!items.containsKey(name)) {
+      String text = "Item '" + name + "' not found!";
+      JOptionPane optionPane = new JOptionPane(text, JOptionPane.ERROR_MESSAGE);
+      JDialog alert = optionPane.createDialog("Check Out Error!");
+      alert.setAlwaysOnTop(true);
+      alert.setVisible(true);
+
+      return;
+    }
+
+    if (items.get(name).quantity - quantity < 0) {
+      String text = "You can't check out that many! There are currently " + items.get(name).quantity
+          + " of that item checked in!";
+      JOptionPane optionPane = new JOptionPane(text, JOptionPane.ERROR_MESSAGE);
+      JDialog alert = optionPane.createDialog("Check Out Error!");
+      alert.setAlwaysOnTop(true);
+      alert.setVisible(true);
+
       return;
     }
 
     items.compute(name,
         (k, v) -> v == null ? new InventoryItem(name, quantity) : new InventoryItem(name, v.quantity -= quantity));
-
-    if (items.get(name).quantity < 0) {
-      items.get(name).quantity = 0;
-      // TODO: make this show a warning or smth
-    }
 
     // clear entry fields after item added
     addItemField.setText("");

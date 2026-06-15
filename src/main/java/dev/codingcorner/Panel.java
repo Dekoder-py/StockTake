@@ -7,7 +7,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.HashMap;
+import java.util.Vector;
 
 import javax.swing.*;
 
@@ -18,7 +18,7 @@ public class Panel extends JPanel {
   public static final int WIDTH = 600;
   public static final int HEIGHT = 600;
 
-  private HashMap<String, InventoryItem> items = new HashMap<>();
+  private Vector<InventoryItem> items = new Vector<InventoryItem>();
 
   private JTextField addItemField;
   private JSpinner itemAmountSpinner;
@@ -84,7 +84,7 @@ public class Panel extends JPanel {
       addItem();
 
       System.out.println("\n\nNew inventory: ");
-      for (InventoryItem item : items.values()) {
+      for (InventoryItem item : items) {
         System.out.println("Item: " + item.getName() + ", Quantity: " + item.quantity);
       }
     });
@@ -93,7 +93,7 @@ public class Panel extends JPanel {
       removeItem();
 
       System.out.println("\n\nNew inventory: ");
-      for (InventoryItem item : items.values()) {
+      for (InventoryItem item : items) {
         System.out.println("Item: " + item.getName() + ", Quantity: " + item.quantity);
       }
     });
@@ -115,8 +115,19 @@ public class Panel extends JPanel {
       return;
     }
 
-    items.compute(name,
-        (k, v) -> v == null ? new InventoryItem(name, quantity) : new InventoryItem(name, v.quantity += quantity));
+    // search through items for item
+    boolean found = false;
+    for (InventoryItem item : items) {
+      if (item.getName().equals(name)) {
+        item.quantity += quantity;
+        found = true;
+        break;
+      }
+    }
+
+    if (!found) {
+      items.add(new InventoryItem(name, quantity));
+    }
 
     // clear entry fields after item added
     addItemField.setText("");
@@ -132,7 +143,31 @@ public class Panel extends JPanel {
       return;
     }
 
-    if (!items.containsKey(name)) {
+    // search for item to remove
+    boolean found = false;
+    for (InventoryItem item : items) {
+      if (item.getName().equals(name)) {
+        found = true;
+        if (item.quantity - quantity < 0) {
+          String text = "You can't check out that many! There are currently " + item.quantity
+              + " of that item checked in!";
+          JOptionPane optionPane = new JOptionPane(text, JOptionPane.ERROR_MESSAGE);
+          JDialog alert = optionPane.createDialog("Check Out Error!");
+          alert.setAlwaysOnTop(true);
+          alert.setVisible(true);
+
+          return;
+        }
+
+        item.quantity -= quantity;
+        
+        if (item.quantity == 0)
+          items.remove(item);
+        break;
+      }
+    }
+
+    if (!found) {
       String text = "Item '" + name + "' not found!";
       JOptionPane optionPane = new JOptionPane(text, JOptionPane.ERROR_MESSAGE);
       JDialog alert = optionPane.createDialog("Check Out Error!");
@@ -141,20 +176,6 @@ public class Panel extends JPanel {
 
       return;
     }
-
-    if (items.get(name).quantity - quantity < 0) {
-      String text = "You can't check out that many! There are currently " + items.get(name).quantity
-          + " of that item checked in!";
-      JOptionPane optionPane = new JOptionPane(text, JOptionPane.ERROR_MESSAGE);
-      JDialog alert = optionPane.createDialog("Check Out Error!");
-      alert.setAlwaysOnTop(true);
-      alert.setVisible(true);
-
-      return;
-    }
-
-    items.compute(name,
-        (k, v) -> v == null ? new InventoryItem(name, quantity) : new InventoryItem(name, v.quantity -= quantity));
 
     // clear entry fields after item added
     addItemField.setText("");

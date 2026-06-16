@@ -10,6 +10,7 @@ import java.awt.Insets;
 import java.util.Vector;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 import com.catppuccin.Palette;
 
@@ -37,6 +38,9 @@ public class Panel extends JPanel {
       Palette.MOCHA.text().r(),
       Palette.MOCHA.text().g(),
       Palette.MOCHA.text().b());
+
+  String[] columns = { "Name", "Quantity" };
+  private DefaultTableModel model = new DefaultTableModel(columns, 0);
 
   public Panel() {
     this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -104,6 +108,12 @@ public class Panel extends JPanel {
     gbc.gridx = 2;
     this.add(buttonPanel, gbc);
 
+    JTable table = new JTable(model);
+
+    gbc.gridx = 0;
+    gbc.gridy = 2;
+    this.add(table, gbc);
+
   }
 
   private void addItem() {
@@ -117,9 +127,13 @@ public class Panel extends JPanel {
 
     // search through items for item
     boolean found = false;
-    for (InventoryItem item : items) {
+    for (int row = 0; row < items.size(); row++) {
+      InventoryItem item = items.get(row);
+
       if (item.getName().equals(name)) {
         item.quantity += quantity;
+        model.setValueAt(item.getQuantity(), row, 1);
+
         found = true;
         break;
       }
@@ -127,6 +141,10 @@ public class Panel extends JPanel {
 
     if (!found) {
       items.add(new InventoryItem(name, quantity));
+      model.addRow(new Object[] {
+          name,
+          quantity
+      });
     }
 
     // clear entry fields after item added
@@ -160,7 +178,7 @@ public class Panel extends JPanel {
         }
 
         item.quantity -= quantity;
-        
+
         if (item.quantity == 0)
           items.remove(item);
         break;

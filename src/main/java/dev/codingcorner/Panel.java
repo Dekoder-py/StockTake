@@ -57,7 +57,7 @@ public class Panel extends JPanel {
     gbc.gridy = 0;
     this.add(title, gbc);
 
-    addItemField = new JTextField(6);
+    addItemField = new JTextField(5);
 
     gbc.gridy = 1;
     this.add(addItemField, gbc);
@@ -121,7 +121,7 @@ public class Panel extends JPanel {
     String name = addItemField.getText().toLowerCase().trim();
     int quantity = (int) itemAmountSpinner.getValue();
 
-    if (name.isBlank() || quantity == 0) {
+    if (name.isBlank() || quantity <= 0 ) {
       return;
     }
 
@@ -157,13 +157,14 @@ public class Panel extends JPanel {
     String name = addItemField.getText().toLowerCase().trim();
     int quantity = (int) itemAmountSpinner.getValue();
 
-    if (name.isBlank() || quantity == 0) {
+    if (name.isBlank() || quantity <= 0) {
       return;
     }
 
     // search for item to remove
     boolean found = false;
-    for (InventoryItem item : items) {
+    for (int row = 0; row < items.size(); row++) {
+      InventoryItem item = items.get(row);
       if (item.getName().equals(name)) {
         found = true;
         if (item.quantity - quantity < 0) {
@@ -178,9 +179,7 @@ public class Panel extends JPanel {
         }
 
         item.quantity -= quantity;
-
-        if (item.quantity == 0)
-          items.remove(item);
+        model.setValueAt(item.getQuantity(), row, 1);
         break;
       }
     }

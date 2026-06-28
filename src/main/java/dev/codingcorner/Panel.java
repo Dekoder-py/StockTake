@@ -86,8 +86,8 @@ public class Panel extends JPanel {
 
     checkInBtn.addActionListener(e -> {
       addItem();
-
       System.out.println("\n\nNew inventory: ");
+
       for (InventoryItem item : items) {
         System.out.println("Item: " + item.getName() + ", Quantity: " + item.quantity);
       }
@@ -121,7 +121,14 @@ public class Panel extends JPanel {
     String name = addItemField.getText().toLowerCase().trim();
     int quantity = (int) itemAmountSpinner.getValue();
 
-    if (name.isBlank() || quantity <= 0 ) {
+    if (name.isBlank() || quantity <= 0) {
+      if (quantity <= 0) {
+        String text = "You can't check in less than one!";
+        JOptionPane optionPane = new JOptionPane(text, JOptionPane.ERROR_MESSAGE);
+        JDialog alert = optionPane.createDialog("Check In Error!");
+        alert.setAlwaysOnTop(true);
+        alert.setVisible(true);
+      }
       return;
     }
 
@@ -158,6 +165,14 @@ public class Panel extends JPanel {
     int quantity = (int) itemAmountSpinner.getValue();
 
     if (name.isBlank() || quantity <= 0) {
+      if (quantity <= 0) {
+        String text = "You can't check out less than one!";
+        JOptionPane optionPane = new JOptionPane(text, JOptionPane.ERROR_MESSAGE);
+        JDialog alert = optionPane.createDialog("Check Out Error!");
+        alert.setAlwaysOnTop(true);
+        alert.setVisible(true);
+      }
+
       return;
     }
 

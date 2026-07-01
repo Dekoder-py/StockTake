@@ -58,12 +58,19 @@ public class Panel extends JPanel {
     this.add(title, gbc);
 
     addItemField = new JTextField(5);
+    addItemField.setColumns(15);
 
     gbc.gridy = 1;
     this.add(addItemField, gbc);
 
     itemAmountSpinner = new JSpinner();
     itemAmountSpinner.setValue(1);
+
+    // set size of spinner (source:
+    // https://stackoverflow.com/questions/25188926/change-jspinner-size-width)
+    Component spinnerEditor = itemAmountSpinner.getEditor();
+    JFormattedTextField jftf = ((JSpinner.DefaultEditor) spinnerEditor).getTextField();
+    jftf.setColumns(5);
 
     gbc.gridy = 1;
     gbc.gridx = 1;

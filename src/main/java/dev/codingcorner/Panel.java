@@ -57,11 +57,19 @@ public class Panel extends JPanel {
     gbc.gridy = 0;
     this.add(title, gbc);
 
+    JLabel fieldLabel = new JLabel("Item:");
+
+    gbc.gridy = 1;
+    this.add(fieldLabel, gbc);
+
     addItemField = new JTextField(5);
     addItemField.setColumns(15);
 
-    gbc.gridy = 1;
     this.add(addItemField, gbc);
+
+    JLabel spinnerLabel = new JLabel("Quantity:");
+
+    this.add(fieldLabel, gbc);
 
     itemAmountSpinner = new JSpinner();
     itemAmountSpinner.setValue(1);

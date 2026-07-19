@@ -60,16 +60,20 @@ public class Panel extends JPanel {
     JLabel fieldLabel = new JLabel("Item:");
 
     gbc.gridy = 1;
+    gbc.gridx = 0;
     this.add(fieldLabel, gbc);
 
     addItemField = new JTextField(5);
     addItemField.setColumns(15);
 
+    gbc.gridx = 1;
     this.add(addItemField, gbc);
 
     JLabel spinnerLabel = new JLabel("Quantity:");
 
-    this.add(fieldLabel, gbc);
+    gbc.gridy = 2;
+    gbc.gridx = 0;
+    this.add(spinnerLabel, gbc);
 
     itemAmountSpinner = new JSpinner();
     itemAmountSpinner.setValue(1);
@@ -80,7 +84,6 @@ public class Panel extends JPanel {
     JFormattedTextField jftf = ((JSpinner.DefaultEditor) spinnerEditor).getTextField();
     jftf.setColumns(5);
 
-    gbc.gridy = 1;
     gbc.gridx = 1;
     this.add(itemAmountSpinner, gbc);
 
@@ -121,13 +124,19 @@ public class Panel extends JPanel {
     buttonPanel.add(checkOutBtn, Component.CENTER_ALIGNMENT);
 
     gbc.gridx = 2;
+    gbc.gridy = 1;
+    gbc.gridheight = 2;
     this.add(buttonPanel, gbc);
+    gbc.gridheight = 1;
 
     JTable table = new JTable(model);
+    JScrollPane scrollPane = new JScrollPane(table);
 
     gbc.gridx = 0;
-    gbc.gridy = 2;
-    this.add(table, gbc);
+    gbc.gridy = 3;
+    gbc.gridwidth = 3;
+    this.add(scrollPane, gbc);
+    gbc.gridwidth = 1;
 
   }
 

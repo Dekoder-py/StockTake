@@ -4,6 +4,8 @@ This document outlines bugs or issues I encountered during development, and how 
 
 ## Integer Overflow for InventoryItem.updateQuantity()
 
+**Update, Monday 20 July**: This issue is extremely unlikely to be encountered by anyone in a real scenario, so I will not be fixing this issue.
+
 Setting the amount passed to this function to **2,147,483,648** (or -2,147,483,648) causes a wrap-around
 to **-2,147,483,647** (or 2,147,483,647). I plan to fix this by adding an if statement to prevent users
 checking in or out more than 2 billion / less than -2 billion items. I may also set the amount to an unsigned int and prevent any negative number.

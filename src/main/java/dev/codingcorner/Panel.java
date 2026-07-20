@@ -58,6 +58,7 @@ public class Panel extends JPanel {
     this.add(title, gbc);
 
     JLabel fieldLabel = new JLabel("Item:");
+    fieldLabel.setForeground(TEXT);
 
     gbc.gridy = 1;
     gbc.gridx = 0;
@@ -70,6 +71,7 @@ public class Panel extends JPanel {
     this.add(addItemField, gbc);
 
     JLabel spinnerLabel = new JLabel("Quantity:");
+    spinnerLabel.setForeground(TEXT);
 
     gbc.gridy = 2;
     gbc.gridx = 0;

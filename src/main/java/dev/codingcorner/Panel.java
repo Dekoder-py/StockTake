@@ -132,6 +132,7 @@ public class Panel extends JPanel {
     gbc.gridheight = 1;
 
     JTable table = new JTable(model);
+    table.setEnabled(false);
     JScrollPane scrollPane = new JScrollPane(table);
 
     gbc.gridx = 0;

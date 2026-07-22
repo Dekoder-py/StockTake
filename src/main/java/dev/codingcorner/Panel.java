@@ -19,7 +19,7 @@ public class Panel extends JPanel {
   public static final int WIDTH = 600;
   public static final int HEIGHT = 600;
 
-  public SaveState saveState = new SaveState("./test.json");
+  public SaveState saveState = new SaveState("./stocktake.json");
 
   private Vector<InventoryItem> items = saveState.loadFromFile();
 

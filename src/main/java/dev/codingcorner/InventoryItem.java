@@ -2,8 +2,10 @@ package dev.codingcorner;
 
 public class InventoryItem {
 
-  private String name;
+  public String name;
   public int quantity;
+
+  public InventoryItem() {}
 
   public InventoryItem(String name, int quantity) {
 

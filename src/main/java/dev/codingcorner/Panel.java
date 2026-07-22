@@ -19,7 +19,9 @@ public class Panel extends JPanel {
   public static final int WIDTH = 600;
   public static final int HEIGHT = 600;
 
-  private Vector<InventoryItem> items = new Vector<InventoryItem>();
+  public SaveState saveState = new SaveState("./test.json");
+
+  private Vector<InventoryItem> items = saveState.loadFromFile();
 
   private JTextField addItemField;
   private JSpinner itemAmountSpinner;
@@ -131,6 +133,11 @@ public class Panel extends JPanel {
     this.add(buttonPanel, gbc);
     gbc.gridheight = 1;
 
+    // show the loaded data from SaveState
+    for (InventoryItem item : items) {
+      model.addRow(new Object[] { item.getName(), item.getQuantity() });
+    }
+
     JTable table = new JTable(model);
     table.setEnabled(false);
     JScrollPane scrollPane = new JScrollPane(table);
@@ -180,6 +187,9 @@ public class Panel extends JPanel {
           quantity
       });
     }
+
+
+    saveState.saveToFile(items);
 
     // clear entry fields after item added
     addItemField.setText("");
@@ -236,6 +246,7 @@ public class Panel extends JPanel {
       return;
     }
 
+    saveState.saveToFile(items);
     // clear entry fields after item added
     addItemField.setText("");
     itemAmountSpinner.setValue(1);

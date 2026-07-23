@@ -6,13 +6,16 @@ on:
       - "v*"
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build-windows:
     runs-on: windows-latest
 
     env:
       APP_NAME: StockTake
-      APP_VERSION: 0.0.1
+      APP_VERSION: 0.0.2
       MAIN_CLASS: dev.codingcorner.App
 
     steps:
@@ -41,7 +44,8 @@ jobs:
               --name StockTake `
               --input target `
               --main-jar $jar.Name `
-              --main-class dev.codingcorner.Main
+              --main-class dev.codingcorner.App
+              --dest dist
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2

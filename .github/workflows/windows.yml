@@ -15,7 +15,7 @@ jobs:
 
     env:
       APP_NAME: StockTake
-      APP_VERSION: 0.0.4
+      APP_VERSION: 0.0.5
       MAIN_CLASS: dev.codingcorner.App
 
     steps:
@@ -39,21 +39,21 @@ jobs:
             Where-Object { $_.Name -notmatch "sources|javadoc|original" } |
             Select-Object -First 1
 
-            Write-Host "Using JAR: $($jar.FullName)"
+          Write-Host "Using JAR: $($jar.FullName)"
 
-            jpackage `
-              --type exe `
-              --name $env:APP_NAME `
-              --input target `
-              --app-version $env:APP_VERSION `
-              --main-jar $jar.Name `
-              --main-class $env:MAIN_CLASS `
-              --dest dist
+          jpackage `
+            --type exe `
+            --name $env:APP_NAME `
+            --input target `
+            --app-version $env:APP_VERSION `
+            --main-jar $jar.Name `
+            --main-class $env:MAIN_CLASS `
+            --dest dist
 
-        - name: Debug output
-          shell: pwsh
-          run: |
-            Get-ChildItem -Recurse dist
+      - name: Debug output
+        shell: pwsh
+        run: |
+          Get-ChildItem -Recurse dist
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2

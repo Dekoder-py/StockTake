@@ -1,6 +1,7 @@
 package dev.codingcorner;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.io.IOException;
 import java.util.Vector;
 
@@ -14,12 +15,20 @@ public class SaveState {
 
   private String filePath;
 
-  public SaveState(String filePath) {
-    this.filePath = filePath;
+  public SaveState() {
+    this.filePath = Path.of(
+        System.getProperty("user.home"),
+        ".stocktake",
+        "stocktake.json").toString();
   };
 
   public void saveToFile(Vector<InventoryItem> items) {
     File file = new File(filePath);
+
+    File parent = file.getParentFile();
+    if (parent != null) {
+        parent.mkdirs();
+    }
 
     ObjectMapper mapper = new ObjectMapper();
     try {

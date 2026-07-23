@@ -12,7 +12,7 @@ jobs:
 
     env:
       APP_NAME: StockTake
-      APP_VERSION: 1.0-SNAPSHOT
+      APP_VERSION: 1.1-SNAPSHOT
       MAIN_CLASS: dev.codingcorner.App
 
     steps:

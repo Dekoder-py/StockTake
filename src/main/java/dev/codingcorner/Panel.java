@@ -126,6 +126,7 @@ public class Panel extends JPanel {
 
     buttonPanel.add(checkInBtn, Component.CENTER_ALIGNMENT);
     buttonPanel.add(checkOutBtn, Component.CENTER_ALIGNMENT);
+    buttonPanel.setBackground(BLUE);
 
     gbc.gridx = 2;
     gbc.gridy = 1;

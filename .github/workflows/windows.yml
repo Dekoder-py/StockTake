@@ -42,7 +42,7 @@ jobs:
           Write-Host "Using JAR: $($jar.FullName)"
 
           jpackage `
-            --type exe `
+            --type app-image `
             --name $env:APP_NAME `
             --input target `
             --app-version $env:APP_VERSION `

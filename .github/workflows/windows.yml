@@ -32,32 +32,9 @@ jobs:
       - name: Build jar
         run: mvn -B clean package
 
-      - name: Package installer
-        shell: pwsh
-        run: |
-          $jar = Get-ChildItem target\*.jar |
-            Where-Object { $_.Name -notmatch "sources|javadoc|original" } |
-            Select-Object -First 1
-
-          Write-Host "Using JAR: $($jar.FullName)"
-
-          jpackage `
-            --type app-image `
-            --name $env:APP_NAME `
-            --input target `
-            --app-version $env:APP_VERSION `
-            --main-jar $jar.Name `
-            --main-class $env:MAIN_CLASS `
-            --dest dist
-
-      - name: Debug output
-        shell: pwsh
-        run: |
-          Get-ChildItem -Recurse dist
-
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            dist/*.exe
+            dist/StockTake-*.jar
           generate_release_notes: true

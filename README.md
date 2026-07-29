@@ -9,3 +9,7 @@ This is an stock / inventory management application made for my Year 12 DGT asse
 3. Run `java -jar StockTake-v*.*.*.jar`
 
 **You will need Java installed to run this!**
+
+## Credits:
+
+This project uses [Jackson](https://github.com/FasterXML/jackson) to parse json.
